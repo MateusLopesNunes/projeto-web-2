@@ -7,6 +7,7 @@
         <title> Cadastro de Usuarios </title>
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/bootstrap-icons.css">
+
         <style>
             html{
                 height: 100%;
@@ -18,7 +19,8 @@
                 height: 100%;
                 overflow-x: hidden;
             }
-        </style>     
+        </style>    
+         
     </head>
     <body>
         <div class="row h-100 align-items-center">
@@ -32,6 +34,9 @@
                             </div>
                             <div class="card-body">
                                 <form id="novoUsuario" method="post" action="novoUsuario.php">
+                                    <!--
+                                        Campo nome
+                                    -->
                                     <div class="row">
                                         <div class="col-sm">
                                             <div class="form-group">
@@ -46,10 +51,12 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!--
+                                        Campo email
+                                    -->
                                     <div class="row">
                                         <div class="col-sm">
                                             <div class="form-group">
-
                                                 <label for="mailUsuario">E-mail</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
@@ -59,8 +66,10 @@
                                                     name="mailUsuario" placeholder="Digite o seu email" value="" required>
                                                 </div>
                                             </div>
-
                                         </div>
+                                        <!--
+                                            Campo repita seu email
+                                        -->
                                         <div class="col-sm">
                                             <div class="form-group">
                                                 <label for="mail2Usuario">Repita o seu Email</label>
@@ -72,13 +81,14 @@
                                                     name="mail2Usuario" placeholder="Repita o seu email" value="" required>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
+                                    <!--
+                                        Campo senha
+                                    -->
                                     <div class="row">
                                         <div class="col-sm">
                                             <div class="form-group">
-
                                                 <label for="senhaUsuario">Senha</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
@@ -88,8 +98,10 @@
                                                     name="senhaUsuario" placeholder="Digite a sua senha" value="" required>
                                                 </div>
                                             </div>
-
                                         </div>
+                                        <!--
+                                            Campo repita sua senha
+                                        -->
                                         <div class="col-sm">
                                             <div class="form-group">
                                                 <label for="senha2Usuario">Repita a sua Senha </label>
@@ -101,9 +113,11 @@
                                                     name="senha2Usuario" placeholder="Repita a sua senha" value="" required>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
+                                    <!--
+                                        Botão
+                                    -->
                                     <div class="row">
                                         <div class="col-sm text-right">
                                             <button class="btn btn-primary" type="submit">Cadastrar</button>
