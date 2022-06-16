@@ -1,6 +1,9 @@
+<?php
+    include "conectaBanco.php";
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -303,13 +306,23 @@
                                                 <select class="form-control" aria-label="Default select example"
                                                     id="estadoContato" name="estadoContato" required>
                                                     <option selected value="">Escolha o estado</option>
+                                                    <?php
+                                                    /*objeto com a query que sera usada */
+                                                        $sqlEstados = "select codigoEstado, nomeEstado from estados";
+                                                    /*query executa a string e o fetchALL retorna todos os resultados*/
+                                                        $resultadosEstados =  $conexao->query($sqlEstados)->fetchAll();
+                                                    /* executa um foreach sobre a lista de map que foi retornada da query e injeta no html a option*/ 
+                                                        foreach ($resultadosEstados as list($codigoEstado, $nomeEstado)){
+                                                            echo "<option value=\"$codigoEstado \">$nomeEstado</option>\n";
+                                                        }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="bairro">Cidade*</label>
+                                            <label for="cidadeContato">Cidade*</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text"><i class="bi-globe"></i></div>
@@ -336,7 +349,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="modalSobreAplicacao" tabindex="-1" role="dialog" aria-labelledby="sobreAplicacao"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -405,6 +417,13 @@
             };
         //linha que aplica mascara ao telefone
         $('.mascara-telefone').mask(SPMaskBehavior, spOptions);
+        //ajax
+        //quando o evento mudança ocorrer com o id estadoContato
+        $('#estadoContato').change(()=> {
+            $('#cidadeContato').html('<option>Carregando...</option>');
+            $('#cidadeContato').load('listaCidade.php?codigoEstado='+ $('#estadoContato').val());
+        });
+    
     });
 </script>
 
