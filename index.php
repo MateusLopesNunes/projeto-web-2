@@ -10,6 +10,7 @@
     <script src="js/jquery-3.3.1.js"></script>
     <script src="js/jquery.validate.js"></script>
     <script src="js/messages_pt_PT.js"></script>
+    <script src="js/bootstrap.bundle.js"></script>
 
     <style>
         html {
@@ -29,6 +30,33 @@
 <body>
     <div class="row h-100 align-items-center">
         <div class="container">
+            <?php
+                if (isset($_GET['codMsg'])) {
+                    $codMsg = $_GET['codMsg'];
+
+                    switch ($codMsg) {
+                        case '001' :
+                            $classeMensagem = 'alert-danger';
+                            $textoMensagem = 'Informe o usuário e senha para acessar o sistema.';
+                            break;
+                        case '002' :
+                            $classeMensagem = 'alert-danger';
+                            $textoMensagem = 'Usuário ou senha incorretos.';
+                            break;
+                    }
+                }
+
+                if (!empty($textoMensagem)) {
+                    echo "<div class=\"alert $classeMensagem alert-dismissible fade show\" role=\"alert\">
+                                $textoMensagem
+                                <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+                                <span aria-hidden=\"true\">&times;</span>
+                                </button>
+                            </div>";
+                }
+
+
+            ?>
             <div class="row">
                 <div class="col-sm"></div>
                 <div class="col-sm-6">
