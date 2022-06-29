@@ -148,7 +148,10 @@
                                                     $senhaUsuarioMD5 = $senhaAtualUsuarioMD5;
                                                 }
 
-                                                $sqlEditarUsuario = "UPDATE usuarios SET nomeUsuario=:nomeUsuario, mailUsuario=:mailUsuario,senhaUsuario=:senhausuario WHERE codigoUsuario=:codigoUsuario";
+                                                echo $codigoUsuarioLogado . $nomeUsuario . $mailUsuario . $senhaUsuarioMD5;
+
+
+                                                $sqlEditarUsuario = "UPDATE usuarios SET nomeUsuario=:nomeUsuario, mailUsuario=:mailUsuario, senhaUsuario=:senhaUsuario WHERE codigoUsuario=:codigoUsuario;";
 
                                                 $sqlEditarUsuarioST = $conexao->prepare($sqlEditarUsuario);
                                                 $sqlEditarUsuarioST->bindValue(':codigoUsuario', $codigoUsuarioLogado);
@@ -160,7 +163,7 @@
                                                     $mensagemAcao = "Cadastro de usuário editado com sucesso.";
                                                 } else {
                                                     $flagErro = True;
-                                                    $mensagemAcao = "Código erro: " . $sqlNovoUsuarioST->errorCode();
+                                                    $mensagemAcao = "Código erro: " . $sqlEditarUsuarioST->errorCode();
                                                 }
                                             } else {
                                                 $flagErro = True;
