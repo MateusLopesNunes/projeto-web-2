@@ -93,13 +93,33 @@
     </nav>
     <div class="h-100 row align-items-center pt-5">
         <div class="container">
+            <?php
+            if (isset($_GET['codMsg'])){
+                $codMsg = $_GET['codMsg'];
+
+                switch ($codMsg) {
+                    case '001':
+                        $classeMensagem = "alert-danger";
+                        $textoMensagem = "Informe o usuário e a senha para acessar o sistema.";
+                        break;
+                }
+
+                if (!empty($textoMensagem)){
+                    echo "<div class=\"alert $classeMensagem alert-dismissible fade show\" role=\"alert\">
+                                    $textoMensagem
+                                    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Fechar\">
+                                        <span aria-hidden=\"true\">&times;</span>
+                                    </button>
+                                </div>";
+                }
+            }
+            ?>
             <div class="row">
                 <div class="col-sm"></div>
                 <div class="col-sm-12">
                     <div class="card border-primary my-5">
                         <div class="card-header bg-primary text-white">
                             <h5>Lista de contatos</h5>
-
                         </div>
                         <div class="card-body">
                             <table class="table table-striped">

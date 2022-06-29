@@ -315,7 +315,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm text-right">
-                                        <button input type="submit" class="btn btn-outline-info">Salvar</button>
+                                        <button input type="submit" class="btn btn-info">Salvar</button>
                                     </div>
                                 </div>
                             </form>

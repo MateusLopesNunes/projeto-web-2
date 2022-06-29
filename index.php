@@ -70,6 +70,11 @@
                         case '009':
                             $classeMensagem = 'alert-success';
                             $textoMensagem = "Sua sessão no sistema foi encerrada com sucesso.";
+                            break;
+                        case '010':
+                            $classeMensagem = 'alert-success';
+                            $textoMensagem = "Novo usuário cadastrado com sucesso.";
+                            break;
                     }
 
                 if (!empty($textoMensagem)){
@@ -103,7 +108,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm">
-                                        <button id="entrarLogin" type="submit" class="btn btn-outline-primary btn-block btn-lg">
+                                        <button id="entrarLogin" type="submit" class="btn btn-primary btn-block btn-lg">
                                             Entrar
                                         </button>
                                     </div>
@@ -111,17 +116,15 @@
                             </form>
                         </div>
                         <div class="card-footer">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-sm">
-                                        <a class="btn btn-outline-success btn-block" href="novoUsuario.php">Não sou
-                                            cadastrado</a>
-                                    </div>
-                                    <div class="col-sm">
-                                        <button id="esqueciSenha" class="btn btn-outline-warning btn-block">Esqueci a
-                                            senha
-                                        </button>
-                                    </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <a class="btn btn-success btn-block" href="novoUsuario.php">Não sou
+                                        cadastrado</a>
+                                </div>
+                                <div class="col-6">
+                                    <button id="esqueciSenha" class="btn btn-warning btn-block">Esqueci a
+                                        senha
+                                    </button>
                                 </div>
                             </div>
                         </div>

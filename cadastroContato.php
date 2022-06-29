@@ -589,7 +589,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm text-right">
-                                        <button type="submit" class="btn btn-outline-primary">Salvar</button>
+                                        <button type="submit" class="btn btn-primary">Salvar</button>
                                     </div>
                                 </div>
                             </form>

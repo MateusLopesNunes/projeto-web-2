@@ -80,8 +80,7 @@ include "conectaBanco.php";
                                             $sqlNovoUsuarioST->bindValue(':senhaUsuario', $senhaUsuarioMD5);
 
                                             if ($sqlNovoUsuarioST->execute()) {
-
-                                                $mensagemAcao = "Novo usuário cadastrado com sucesso";
+                                                header('Location: index.php?codMsg=010');
                                             } else {
                                                 $flagErro = True;
                                                 $mensagemAcao = "Código erro: " . $sqlNovoUsuarioST->errorCode();
