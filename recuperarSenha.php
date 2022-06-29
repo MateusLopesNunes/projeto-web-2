@@ -68,9 +68,11 @@
                 $mail->Body = $mensagem;
 
                 if ($mail->send()) {
-                    header("Location: index.php?codMsg=008");
+                    echo "ok";
+                    //("Location: index.php?codMsg=008");
                 } else { //erro ao enviar senha
-                    header("Location: index.php?codMsg=007");
+                    echo "erro";
+                    //header("Location: index.php?codMsg=007");
                 }
             } else { //erro ao gerar nova senha
                 header("Location: index.php?codMsg=006");

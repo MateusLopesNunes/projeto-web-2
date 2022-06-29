@@ -159,7 +159,7 @@
                             } else if (strlen($nomeContato) < 5) {
                                 $flagErro = True;
                                 $mensagemAcao = "Informe a quantidade mínima de caracteres para cada campo: Nome (5).";
-                            } else if (!empty($nascimentoContato) && !preg_match('/^(0?[1-9]|[1,2][0-9]|[3[0,1])[\/](0?[1-9]|1[0,1,2])[\/]\d{4}$/', $nascimentoContato)) { //validação do nascimento
+                            } else if (!empty($nascimentoContato) && !preg_match('/^(0?[1-9]|[1,2][0-9]|3[0,1])[\/](0?[1-9]|1[0,1,2])[\/]\d{4}$/', $nascimentoContato)) { //validação do nascimento
                                 $flagErro = True;
                                 $mensagemAcao = "A data de nascimento do contato deve ser no formato DD/MM/AAAA.";                               
                             } else if (!preg_match("/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/", $mailContato)){

@@ -1,16 +1,16 @@
 <?php
-session_start();
+    session_start();
 
-$verificaUsuarioLogado = $_SESSION['verificaUsuarioLogado'];
+    $verificaUsuarioLogado = $_SESSION['verificaUsuarioLogado'];
 
-if (!$verificaUsuarioLogado) {
-    header("Location: index.php?codMsg=003");
-} else {
-    include "conectaBanco.php";
+    if (!$verificaUsuarioLogado) {
+        header("Location: index.php?codMsg=003");
+    } else {
+        include "conectaBanco.php";
 
-    $nomeUsuarioLogado = $_SESSION['nomeUsuarioLogado'];
-    $codigoUsuarioLogado = $_SESSION['codigoUsuarioLogado'];
-}
+        $nomeUsuarioLogado = $_SESSION['nomeUsuarioLogado'];
+        $codigoUsuarioLogado = $_SESSION['codigoUsuarioLogado'];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +46,7 @@ if (!$verificaUsuarioLogado) {
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="main.php">
                 <img src="img/icone.svg" width="30" height="30" alt="Agenda de contatos">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">

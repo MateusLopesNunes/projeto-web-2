@@ -76,7 +76,7 @@
                         <div class=\"col-sm\">
                             <div class=\"row\">
                                 <div class=\"col-sm\">
-                                    <img src\"$fotoContato\" alt=\"$nomeContato\">
+                                    <img src=\"$fotoContato\" alt=\"¨$nomeContato\">
                                 </div>
                             </div>
                         </div>
