@@ -107,7 +107,10 @@
                             $flagSucesso = False;
                             $mostrarMensagem = False;
 
-                            $dadosContato = array('codigoContato', 'nomeContato', 'nascimentoContato', 'sexoContato', 'mailContato', 'fotoContato', 'fotoAtualContato', 'telefone1Contato', 'telefone2Contato', 'telefone3Contato', 'telefone4Contato', 'logradouroContato', 'complementoContato', 'bairroContato', 'estadoContato', 'cidadeContato');
+                            $dadosContato = array('codigoContato', 'nomeContato', 'nascimentoContato', 'sexoContato', 'mailContato',
+                             'fotoContato', 'fotoAtualContato', 'telefone1Contato', 'telefone2Contato', 'telefone3Contato',
+                              'telefone4Contato', 'logradouroContato', 'complementoContato', 'bairroContato', 'estadoContato',
+                              'cidadeContato');
 
                             foreach($dadosContato as $campo){
                                 $$campo = "";
@@ -253,13 +256,106 @@
                                     }
 
                                 } else { //edição de contato existente
+                                    $sqlContato = "UPDATE contatos SET nomeContato=: nomeContato, nascimentoContato=: nascimentoContato, 
+                                    sexoContato=: sexoContato, mailContato=: mailContato, fotoContato=: fotoContato, 
+                                    telefone1Contato=: telefone1Contato, telefone2Contato=: telefone2Contato, 
+                                    telefone3Contato=: telefone3Contato, telefone4Contato=: telefone4Contato, 
+                                    logradouroContato=: logradouroContato, complementoContato=: complementoContato, 
+                                    bairroContato=: bairroContato, cidadeContato=: cidadeContato, estadoContato=: estadoContato; 
+                                    WHERE codigoContato=: codigoContato AND codigoUsuario=:codigoUsuario";
 
+                                    $sqlContatoST = $conexao->prepare($sqlContato);
+                                    
+                                    $sqlContatoST->bindValue(':codigoContato', $codigoContato);
+                                    $sqlContatoST->bindValue(':codigoUsuario', $codigoUsuarioLogado);
+                                    $sqlContatoST->bindValue(':nomeContato', $nomeContato);
+
+                                    $nascimentoContato = formataData($nascimentoContato);
+                                    $sqlContatoST->bindValue(':nascimentoContato', $nascimentoContato);
+
+
+                                    $sqlContatoST->bindValue(':sexoContato', $sexoContato);
+                                    $sqlContatoST->bindValue(':mailContato', $mailContato);
+                                    $sqlContatoST->bindValue(':telefone1Contato', $telefone1Contato);
+                                    $sqlContatoST->bindValue(':telefone2Contato', $telefone2Contato);
+                                    $sqlContatoST->bindValue(':telefone3Contato', $telefone3Contato);
+                                    $sqlContatoST->bindValue(':telefone4Contato', $telefone4Contato);
+                                    $sqlContatoST->bindValue(':logradouroContato', $logradouroContato);
+                                    $sqlContatoST->bindValue(':complementoContato', $complementoContato);
+                                    $sqlContatoST->bindValue(':bairroContato', $bairroContato);
+                                    $sqlContatoST->bindValue(':cidadeContato', $cidadeContato);
+                                    $sqlContatoST->bindValue(':estadoContato', $estadoContato);
+
+                                    if ($fotoContato['error'] == 0) {
+                                        $extensaoFoto = pathinfo($fotoContato['name'], PATHINFO_EXTENSION);
+                                        $nomeFoto = "fotos/" . strtotime(date("Y-m-d H:i:s")) . $codigoUsuarioLogado . '.' . $extensaoFoto;
+
+                                        if (copy($fotoContato['tmp_name'], $nomeFoto)) {
+                                            $fotoEnviada = True;
+                                        } else {
+                                            $fotoEnviada = False;
+                                        }
+
+                                        $sqlContatoST-> );
+                                    } else {
+                                        $sqlContatoST->bindValue(':fotoContato', '$fotoAtualContato');
+                                        $fotoEnviada = False;
+                                    }
+                                    if ($sqlContatoST->execute()) {
+                                        if($fotoEnviada && !empty($fotoAtualContato)){
+                                            unlink($fotoAtualContato);
+                                        } 
+                                        $flagSucesso = True;
+                                        $mensagemAcao = "Contato editado com sucesso. :)";
+                                        $nascimentoContato = formataData($nascimentoContato);
+                                        //depois de editar, limpar o formulario e começar um novov
+                                        $dadosContato = array('codigoContato', 'nomeContato', 'nascimentoContato', 'sexoContato', 'mailContato',
+                                        'fotoContato', 'fotoAtualContato', 'telefone1Contato', 'telefone2Contato', 'telefone3Contato',
+                                         'telefone4Contato', 'logradouroContato', 'complementoContato', 'bairroContato', 'estadoContato',
+                                         'cidadeContato');
+           
+                                       foreach($dadosContato as $campo){
+                                           $$campo = "";
+                                       }
+           
+
+                                    } else {
+                                        $flagErro = True;
+                                        $mensagemAcao = "Erro ao editar o cadastro do contato. Código do erro: $sqlContatoST->errorCode( ).";
+
+                                        $nascimentoContato = formataData($nascimentoContato);
+
+                                        if ($fotoEnviada) {
+                                            unlink($nomeFoto);
+                                        }
                             }
 
                         } else { //carregar dados
                             if(isset($_GET['codigoContato'])) { // abrir contato existente
+                                $sqlContato = "SELECT * FROM contatos WHERE codigoContato=:codigoContato AND codigoUsuario=:codigoUsuario";
 
-                            } 
+                                $sqlContatoST = $conexao->prepare($sqlContato);
+                                $sqlContatoST->bindValue(':codigoContato', $codigoContato);
+                                $sqlContatoST->bindValue(':codigoUsuario', $codigoUsuarioLogado);
+                    
+                                $sqlContatoST->execute();
+                                $quantidadeContatos = $sqlContatoST->rowCount();
+                    
+                                if ($quantidadeContatos == 1) {
+                                    $resultadoContato = $sqlContatoST->fetchALL();
+                    
+                                    list($codigoContato, $codigoUsuario, $nomeContato, $nascimentoContato, $sexoContato, 
+                                    $mailContato, $fotoContato, $telefone1Contato, $telefone2Contato, $telefone3Contato, 
+                                    $telefone4Contato, $logradouroContato, $complementoContato, $bairroContato, $estadoContato, 
+                                     $cidadeContato) = $resultadoContato[0];
+                                     $fotoAtualContato = $fotoContato;  
+                    
+                                    $nascimentoContato = formataData($nascimentoContato);
+                            } else {
+                                $flagErro = True;
+                                $mesnagemAcao = 'contato não cadastrado.';
+
+                            }
                         }
 
                         if ($flagErro) {
@@ -285,8 +381,8 @@
                         </div>
                         <div class="card-body">
                             <form id="cadastroContato" method="post" enctype="multipart/form-data" action="cadastroContato.php">
-                                <input type ="hidden" name="codigoContato" value="">
-                                <input type ="hidden" name="fotoAtualContato" value="">
+                                <input type ="hidden" name="codigoContato" value="<?= $codigoContato ?>">
+                                <input type ="hidden" name="fotoAtualContato" value="<?= $fotoAtualContato ?>">
                                 <h5 class="text-primary">Dados pessoais</h5>
                                 <hr>
                                 <div class="row">
