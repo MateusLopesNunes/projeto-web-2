@@ -5,7 +5,8 @@
 
     if (!$verificaUsuarioLogado){
         header("Location: index.php?codMsg=003");
-    } else{
+    }
+    else{
         include 'conectaBanco.php';
 
         $nomeUsuarioLogado = $_SESSION['nomeUsuarioLogado'];
@@ -137,7 +138,8 @@
                                         //$busca = "";
                                         if (isset($_GET['busca'])){
                                             $busca = '%' .  $_GET['busca'] . '%';
-                                        } else {
+                                        }
+                                        else {
                                             $busca = '%%';
                                         }
 
@@ -172,7 +174,7 @@
                                                     <div class=\"dropdown-menu\" aria-labelledby=\"{id}\">
                                                         <a class=\"dropdown-item\" href=\"#\" data-toggle=\"modal\"
                                                             data-target=\"#visualizarContato\" data-whatever=\"$codigoContato\">
-                                                            <i class=\"bi- ye\"></i> Visualizar
+                                                            <i class=\"bi-eye\"></i> Visualizar
                                                         </a>
                                                         <a class=\"dropdown-item\" href=\"cadastroContato.php?codigoContato=$codigoContato\">
                                                             <i class=\"bi-pencil\"></i> Editar

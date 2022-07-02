@@ -9,13 +9,15 @@
 
         if (isset($_GET['codigoEstado'])) {
             $codigoEstado = $_GET['codigoEstado'];
-        }else {
+        }
+        else {
             $codigoCidade = '';
         }
 
         if(isset($_GET['codigoCidade'])){
             $codigoCidade = $_GET['codigoCidade'];
-        }else{
+        }
+        else{
             $codigoCidade = '';
         }
 
@@ -31,12 +33,11 @@
         foreach ($resultadoCidades as list($codCidade, $nomeCidade)) {
             if(!empty($codigoCidade ) && $codigoCidade == $codCidade ){
                 $selected = 'selected';
-            }else {
+            }
+            else {
                 $selected = '';
             }
             echo "<option value=\"$codCidade\" $selected>$nomeCidade</option>\n";
         }
-
     }
-
 ?>

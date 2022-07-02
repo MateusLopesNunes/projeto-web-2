@@ -57,16 +57,13 @@ include "conectaBanco.php";
                             ) {
 
                                 if ($mailUsuario == $mail2Usuario && $senhaUsuario == $senha2Usuario) {
-
                                     if (strlen($nomeUsuario) >= 5 && strlen($senhaUsuario >= 8)) {
-
                                         $sqlUsuarios = "SELECT codigoUsuario FROM usuarios WHERE mailUsuario=:mailUsuario";
 
                                         $sqlUsuariosST = $conexao->prepare($sqlUsuarios);
-
                                         $sqlUsuariosST->bindValue(':mailUsuario', $mailUsuario);
-
                                         $sqlUsuariosST->execute();
+
                                         $quantidadeUsuarios = $sqlUsuariosST->rowCount();
 
                                         if ($quantidadeUsuarios == 0) {
@@ -81,30 +78,36 @@ include "conectaBanco.php";
 
                                             if ($sqlNovoUsuarioST->execute()) {
                                                 header('Location: index.php?codMsg=010');
-                                            } else {
+                                            }
+                                            else {
                                                 $flagErro = True;
                                                 $mensagemAcao = "Código erro: " . $sqlNovoUsuarioST->errorCode();
                                             }
-                                        } else {
+                                        }
+                                        else {
                                             $flagErro = True;
                                             $mensagemAcao = "E-mail já cadastrado para outro usuário.";
                                         }
-                                    } else {
+                                    }
+                                    else {
                                         $flagErro = True;
                                         $mensagemAcao = "Informe a quantidade mínima de caracteres para cada campo: Nome (5), Senha (8).";
                                     }
-                                } else {
+                                }
+                                else {
                                     $flagErro = True;
                                     $mensagemAcao = "Os campos de confirmação de e-mail e senha devem ser preenchidos com os respectivos valores.";
                                 }
-                            } else {
+                            }
+                            else {
                                 $flagErro = True;
                                 $mensagemAcao = "Preencha todos os campos obrigatórios (*).";
                             }
 
                             if (!$flagErro) {
                                 $classeMensagem = "alert-success";
-                            } else {
+                            }
+                            else {
                                 $classeMensagem = "alert-danger";
                             }
 

@@ -5,7 +5,8 @@
 
     if (!$verificaUsuarioLogado){
         header("Location: index.php?codMsg=003");
-    } else{
+    }
+    else{
         include 'conectaBanco.php';
         include 'common/formataData.php';
 
@@ -32,7 +33,8 @@
 
                 if ($sexoContato == 'M'){
                     $sexoContato = 'Masculino';
-                } else {
+                }
+                else {
                     $sexoContato = 'Feminino';
                 }
 
@@ -42,7 +44,6 @@
                 $sqlEnderecoST = $conexao->prepare($sqlEndereco);
                 $sqlEnderecoST->bindValue('cidadeContato', $cidadeContato);
                 $sqlEnderecoST->bindValue('estadoContato', $estadoContato);
-
                 $sqlEnderecoST->execute();
                 $resultadoEndereco = $sqlEnderecoST->fetchALL();
 

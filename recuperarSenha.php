@@ -14,9 +14,7 @@
         $sqlUsuario = "SELECT codigoUsuario, nomeUsuario FROM usuarios WHERE mailUsuario=:mailUsuario LIMIT 1";
 
         $sqlUsuarioST = $conexao->prepare($sqlUsuario);
-
         $sqlUsuarioST->bindValue(':mailUsuario', $mailUsuario);
-
         $sqlUsuarioST->execute();
 
         $quantidadeUsuarios = $sqlUsuarioST->rowCount();
@@ -25,7 +23,6 @@
             $resultadoUsuario = $sqlUsuarioST->fetchALL();
 
             list($codigoUsuario, $nomeUsuario) = $resultadoUsuario[0];
-
             $nomeCompletoUsuario = explode(' ', $nomeUsuario);
             $nomeUsuario = $nomeCompletoUsuario[0];
 
@@ -36,7 +33,6 @@
             $sqlAlterarSenha = "UPDATE usuarios SET senhaUsuario=:novaSenhaMD5 WHERE codigoUsuario=:codigoUsuario";
 
             $sqlAlterarSenhaST = $conexao->prepare($sqlAlterarSenha);
-
             $sqlAlterarSenhaST->bindValue(':novaSenhaMD5', $novaSenhaMD5);
             $sqlAlterarSenhaST->bindValue(':codigoUsuario', $codigoUsuario);
 
@@ -70,17 +66,21 @@
                 if ($mail->send()) {
                     echo "ok";
                     //("Location: index.php?codMsg=008");
-                } else { //erro ao enviar senha
+                }
+                else { //erro ao enviar senha
                     echo "erro";
                     //header("Location: index.php?codMsg=007");
                 }
-            } else { //erro ao gerar nova senha
+            }
+            else { //erro ao gerar nova senha
                 header("Location: index.php?codMsg=006");
             }
-        } else { //usuário não cadastrado
+        }
+        else { //usuário não cadastrado
             header("Location: index.php?codMsg=005");
         }
-    } else { //e-mail do usuário não informado
+    }
+    else { //e-mail do usuário não informado
         header("Location: index.php?codMsg=004");
     }
 ?>

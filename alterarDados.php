@@ -114,7 +114,6 @@
                             ) {
 
                                 if ($mailUsuario == $mail2Usuario && $senhaUsuario == $senha2Usuario) {
-
                                     if (strlen($nomeUsuario) >= 5 && strlen($senhaUsuario) >= 8) {
                                         $codigoUsuarioLogado = $_SESSION['codigoUsuarioLogado'];
                                         
@@ -123,11 +122,10 @@
                                         $sqlSenhaUsuario = "SELECT codigoUsuario FROM usuarios WHERE codigoUsuario=:codigoUsuario AND senhaUsuario=:senhaUsuario";
 
                                         $sqlSenhaUsuarioST = $conexao->prepare($sqlSenhaUsuario);
-
                                         $sqlSenhaUsuarioST->bindValue(':codigoUsuario', $codigoUsuarioLogado);
                                         $sqlSenhaUsuarioST->bindValue(':senhaUsuario', $senhaAtualUsuarioMD5);
-
                                         $sqlSenhaUsuarioST->execute();
+
                                         $quantidadeUsuarios = $sqlSenhaUsuarioST->rowCount();
 
                                         if ($quantidadeUsuarios == 1) {
@@ -161,34 +159,41 @@
 
                                                 if ($sqlEditarUsuarioST->execute()) {
                                                     $mensagemAcao = "Cadastro de usuário editado com sucesso.";
-                                                } else {
+                                                }
+                                                else {
                                                     $flagErro = True;
                                                     $mensagemAcao = "Código erro: " . $sqlEditarUsuarioST->errorCode();
                                                 }
-                                            } else {
+                                            }
+                                            else {
                                                 $flagErro = True;
                                                 $mensagemAcao = "E-mail já cadastrado para outro usuário.";
                                             }
-                                        } else {
+                                        }
+                                        else {
                                             $flagErro = True;
                                             $mensagemAcao = "A senha atual informada está incorreta.";
                                         }
-                                    } else {
+                                    }
+                                    else {
                                         $flagErro = True;
                                         $mensagemAcao = "Informe a quantidade mínima de caracteres para cada campo: Nome (5), Senha (8).";
                                     }
-                                } else {
+                                }
+                                else {
                                     $flagErro = True;
                                     $mensagemAcao = "Os campos de confirmação de e-mail e senha devem ser preenchidos com os respectivos valores.";
                                 }
-                            } else {
+                            }
+                            else {
                                 $flagErro = True;
                                 $mensagemAcao = "Preencha todos os campos obrigatórios (*).";
                             }
 
                             if (!$flagErro) {
                                 $classeMensagem = "alert-success";
-                            } else {
+                            }
+                            else {
                                 $classeMensagem = "alert-danger";
                             }
 
@@ -199,21 +204,19 @@
                                     </button>
                                 </div>";
                         }
-                    } else {
+                    }
+                    else {
                         $codigoUsuarioLogado = $_SESSION['codigoUsuarioLogado'];
 
                         $sqlUsuario = "SELECT nomeUsuario, mailUsuario, senhaUsuario FROM usuarios WHERE codigoUsuario=:codigoUsuario";
 
                         $sqlUsuarioST = $conexao->prepare($sqlUsuario);
-
                         $sqlUsuarioST->bindValue(':codigoUsuario', $codigoUsuarioLogado);
-
                         $sqlUsuarioST->execute();
 
                         $resultadoUsuario = $sqlUsuarioST->fetchALL();
 
                         list($nomeUsuario, $mailUsuario, $senhaUsuario) = $resultadoUsuario[0];
-
                         $mail2Usuario = $mailUsuario;
                         $senha2Usuario = $senhaUsuario;
                     }
@@ -315,7 +318,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm text-right">
-                                        <button input type="submit" class="btn btn-info">Salvar</button>
+                                        <button input type="submit" class="btn btn-primary">Salvar</button>
                                     </div>
                                 </div>
                             </form>

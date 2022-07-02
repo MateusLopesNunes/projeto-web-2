@@ -1,17 +1,16 @@
 <?php
-session_start();
+    session_start();
+    $verificaUsuarioLogado = $_SESSION['verificaUsuarioLogado'];
 
-$verificaUsuarioLogado = $_SESSION['verificaUsuarioLogado'];
+    if (!$verificaUsuarioLogado) {
+        header("Location: index.php?codMsg=003");
+    } else {
+        include "conectaBanco.php";
+        include "common/formataData.php";
 
-if (!$verificaUsuarioLogado) {
-    header("Location: index.php?codMsg=003");
-} else {
-    include "conectaBanco.php";
-    include "common/formataData.php";
-
-    $codigoUsuarioLogado = $_SESSION['codigoUsuarioLogado'];
-    $nomeUsuarioLogado = $_SESSION['nomeUsuarioLogado'];
-}
+        $codigoUsuarioLogado = $_SESSION['codigoUsuarioLogado'];
+        $nomeUsuarioLogado = $_SESSION['nomeUsuarioLogado'];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +42,7 @@ if (!$verificaUsuarioLogado) {
             overflow-x: hidden;
         }
 
-        .custom-file-input~.custom-file-label::after {
+        .custom-file-input ~ .custom-file-label::after {
             content: "Selecionar";
         }
     </style>
@@ -61,7 +60,8 @@ if (!$verificaUsuarioLogado) {
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" id="menuCadastros" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" id="menuCadastros"
+                       aria-haspopup="true" aria-expanded="false">
                         <i class="bi-card-list"></i> Cadastros</a>
                     <div class="dropdown-menu" aria-labelledby="menuCadastros">
                         <a class="dropdown-item" href="cadastroContato.php">
@@ -71,7 +71,8 @@ if (!$verificaUsuarioLogado) {
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" id="menuConta" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" id="menuConta"
+                       aria-haspopup="true" aria-expanded="false">
                         <i class="bi-gear-fill"></i> Minha conta</a>
                     <div class="dropdown-menu" aria-labelledby="menuConta">
                         <a class="dropdown-item" href="alterarDados.php">
@@ -96,7 +97,7 @@ if (!$verificaUsuarioLogado) {
     </div>
 </nav>
 <div class="h-100 row align-items-center pt-5">
-    <div class="container">
+    <div class="container ">
         <div class="row">
             <div class="col-sm"></div>
             <div class="col-sm-12">
@@ -133,8 +134,7 @@ if (!$verificaUsuarioLogado) {
                     $complementoContato = addslashes($_POST['complementoContato']);
                     $bairroContato = addslashes($_POST['bairroContato']);
                     $estadoContato = $_POST['estadoContato'];
-                    $cidadeContato  = $_POST['cidadeContato'];
-
+                    $cidadeContato = $_POST['cidadeContato'];
 
                     $telefonesContato = array($telefone1Contato, $telefone2Contato, $telefone3Contato, $telefone4Contato);
 
@@ -143,7 +143,8 @@ if (!$verificaUsuarioLogado) {
 
                     if ($telefonesFiltradosContato === $telefonesValidadosContato) {
                         $erroTelefones = False;
-                    } else {
+                    }
+                    else {
                         $erroTelefones = True;
                     }
 
@@ -155,21 +156,26 @@ if (!$verificaUsuarioLogado) {
 
                         $flagErro = True;
                         $mensagemAcao = "Preencha todos os campos obrigatórios (*). ";
-                    } else if (strlen($nomeContato) < 5) {
+                    }
+                    else if (strlen($nomeContato) < 5) {
                         $flagErro = True;
                         $mensagemAcao = "Informe a quantidade mínima de caracteres para cada campo: Nome (5).";
-                    } else if (!empty($nascimentoContato) && !preg_match('/^(0?[1-9]|[1,2][0-9]|3[0,1])[\/](0?[1-9]|1[0,1,2])[\/]\d{4}$/', $nascimentoContato)) { //validação do nascimento
+                    }
+                    else if (!empty($nascimentoContato) && !preg_match('/^(0?[1-9]|[1,2][0-9]|3[0,1])[\/](0?[1-9]|1[0,1,2])[\/]\d{4}$/', $nascimentoContato)) { //validação do nascimento
                         $flagErro = True;
                         $mensagemAcao = "A data de nascimento do contato deve ser no formato DD/MM/AAAA.";
-                    } else if (!preg_match("/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/", $mailContato)) {
+                    }
+                    else if (!preg_match("/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/", $mailContato)) {
                         $flagErro = True;
                         $mensagemAcao = "Verifique o e-mail informado.";
-                    } else if ($fotoContato['error'] != 4) {
+                    }
+                    else if ($fotoContato['error'] != 4) {
                         if (!in_array($fotoContato['type'], array('image/jpg', 'image/jpeg', 'image/png',)) || $fotoContato['size'] > 2000000) {
 
                             $flagErro = True;
                             $mensagemAcao = "A foto do contato deve ser nos formatos JPG, JPEG ou PNG e ter no máximo 2MB.";
-                        } else {
+                        }
+                        else {
                             list($larguraFoto, $alturaFoto) = getimagesize($fotoContato['tmp_name']);
 
                             if ($larguraFoto > 500 || $alturaFoto > 200) {
@@ -177,7 +183,8 @@ if (!$verificaUsuarioLogado) {
                                 $mensagemAcao = "As dimensões da foto devem ser no máximo 500x200 pixels.";
                             }
                         }
-                    } else if ($erroTelefones) {
+                    }
+                    else if ($erroTelefones) {
                         $flagErro = True;
                         $mensagemAcao = "Os campos de telefone devem ser no formato (xx) xxxxx-xxxx. ";
                     }
@@ -185,13 +192,13 @@ if (!$verificaUsuarioLogado) {
                     if (!$flagErro) {
                         if (empty($codigoContato)) { // inclusão de contato
                             $sqlContato = "INSERT INTO contatos (codigoUsuario, nomeContato, nascimentoContato, 
-                                    sexoContato, mailContato, fotoContato, telefone1Contato, telefone2Contato, 
-                                    telefone3Contato, telefone4Contato, logradouroContato, complementoContato, 
-                                    bairroContato, cidadeContato, estadoContato) 
-                                    VALUES (:codigoUsuario, :nomeContato, :nascimentoContato, :sexoContato, 
-                                    :mailContato, :fotoContato, :telefone1Contato, :telefone2Contato, 
-                                    :telefone3Contato, :telefone4Contato, :logradouroContato, 
-                                    :complementoContato, :bairroContato, :cidadeContato, :estadoContato)";
+                                        sexoContato, mailContato, fotoContato, telefone1Contato, telefone2Contato, 
+                                        telefone3Contato, telefone4Contato, logradouroContato, complementoContato, 
+                                        bairroContato, cidadeContato, estadoContato) 
+                                        VALUES (:codigoUsuario, :nomeContato, :nascimentoContato, :sexoContato, 
+                                        :mailContato, :fotoContato, :telefone1Contato, :telefone2Contato, 
+                                        :telefone3Contato, :telefone4Contato, :logradouroContato, 
+                                        :complementoContato, :bairroContato, :cidadeContato, :estadoContato)";
 
                             $sqlContatoST = $conexao->prepare($sqlContato);
 
@@ -200,7 +207,6 @@ if (!$verificaUsuarioLogado) {
 
                             $nascimentoContato = formataData($nascimentoContato);
                             $sqlContatoST->bindValue(':nascimentoContato', $nascimentoContato);
-
 
                             $sqlContatoST->bindValue(':sexoContato', $sexoContato);
                             $sqlContatoST->bindValue(':mailContato', $mailContato);
@@ -225,14 +231,16 @@ if (!$verificaUsuarioLogado) {
                                 }
 
                                 $sqlContatoST->bindValue(':fotoContato', $nomeFoto);
-                            } else {
+                            }
+                            else {
                                 $sqlContatoST->bindValue(':fotoContato', '');
                                 $fotoEnviada = False;
                             }
                             if ($sqlContatoST->execute()) {
                                 $flagSucesso = True;
                                 $mensagemAcao = "Novo contato cadastrado com sucesso.";
-                            } else {
+                            }
+                            else {
                                 $flagErro = True;
                                 $mensagemAcao = "Erro ao cadastrar o novo contato. Código do erro: $sqlContatoST->errorCode( ).";
 
@@ -242,14 +250,15 @@ if (!$verificaUsuarioLogado) {
                                     unlink($nomeFoto);
                                 }
                             }
-                        } else { //edição de contato existente
+                        }
+                        else { //edição de contato existente
                             $sqlContato = "UPDATE contatos SET nomeContato=:nomeContato, nascimentoContato=:nascimentoContato, 
-                                    sexoContato=:sexoContato, mailContato=:mailContato, fotoContato=:fotoContato, 
-                                    telefone1Contato=:telefone1Contato, telefone2Contato=:telefone2Contato, 
-                                    telefone3Contato=:telefone3Contato, telefone4Contato=:telefone4Contato, 
-                                    logradouroContato=:logradouroContato, complementoContato=:complementoContato, 
-                                    bairroContato=:bairroContato, cidadeContato=:cidadeContato, estadoContato=:estadoContato 
-                                    WHERE codigoContato=:codigoContato AND codigoUsuario=:codigoUsuario";
+                                        sexoContato=:sexoContato, mailContato=:mailContato, fotoContato=:fotoContato, 
+                                        telefone1Contato=:telefone1Contato, telefone2Contato=:telefone2Contato, 
+                                        telefone3Contato=:telefone3Contato, telefone4Contato=:telefone4Contato, 
+                                        logradouroContato=:logradouroContato, complementoContato=:complementoContato, 
+                                        bairroContato=:bairroContato, cidadeContato=:cidadeContato, estadoContato=:estadoContato 
+                                        WHERE codigoContato=:codigoContato AND codigoUsuario=:codigoUsuario";
 
                             $sqlContatoST = $conexao->prepare($sqlContato);
 
@@ -278,12 +287,14 @@ if (!$verificaUsuarioLogado) {
 
                                 if (copy($fotoContato['tmp_name'], $nomeFoto)) {
                                     $fotoEnviada = True;
-                                } else {
+                                }
+                                else {
                                     $fotoEnviada = False;
                                 }
 
                                 $sqlContatoST->bindValue(':fotoContato', $nomeFoto);
-                            } else {
+                            }
+                            else {
                                 $sqlContatoST->bindValue(':fotoContato', $fotoAtualContato);
                                 $fotoEnviada = False;
                             }
@@ -296,10 +307,10 @@ if (!$verificaUsuarioLogado) {
                                 $mensagemAcao = "Contato editado com sucesso.";
 
                                 $nascimentoContato = formataData($nascimentoContato);
-                            } else {
+                            }
+                            else {
                                 $flagErro = True;
                                 $mensagemAcao = "Erro ao editar o cadastro do contato. Código do $sqlContatoST->errorCode( ).";
-
                                 $nascimentoContato = formataData($nascimentoContato);
 
                                 if ($fotoEnviada) {
@@ -308,7 +319,8 @@ if (!$verificaUsuarioLogado) {
                             }
                         }
                     }
-                } else { //carregar dados
+                }
+                else { //carregar dados
                     if (isset($_GET['codigoContato'])) { // abrir contato existente
                         $codigoContato = $_GET['codigoContato'];
 
@@ -327,9 +339,9 @@ if (!$verificaUsuarioLogado) {
                             list($codigoContato, $codigoUsuario, $nomeContato, $nascimentoContato, $sexoContato, $mailContato, $fotoContato, $telefone1Contato, $telefone2Contato, $telefone3Contato, $telefone4Contato, $logradouroContato, $complementoContato, $bairroContato, $estadoContato, $cidadeContato) = $resultadoContato[0];
 
                             $fotoAtualContato = $fotoContato;
-
                             $nascimentoContato = formataData($nascimentoContato);
-                        } else {
+                        }
+                        else {
                             $flagErro = True;
                             $mensagemAcao = "Contato não cadastrado.";
                         }
@@ -339,26 +351,29 @@ if (!$verificaUsuarioLogado) {
                 if ($flagErro) {
                     $classeMensagem = "alert-danger";
                     $mostrarMensagem = True;
-                } else if ($flagSucesso) {
+                }
+                else if ($flagSucesso) {
                     $classeMensagem = "alert-success";
                     $mostrarMensagem = True;
                 }
 
                 if ($mostrarMensagem) {
-                    echo "<div class=\"alert $classeMensagem alert-dismissible fade show my-5\" role=\"alert\">
-                                    $mensagemAcao
-                                    <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Fechar\">
-                                        <span aria-hidden=\"true\">&times;</span>
-                                    </button>
-                                </div>";
+                    echo "<div id=\"msg\" class=\"alert $classeMensagem alert-dismissible fade show mt-5\" role=\"alert\">
+                                        $mensagemAcao
+                                        <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Fechar\">
+                                            <span aria-hidden=\"true\">&times;</span>
+                                        </button>
+                                    </div>";
                 }
                 ?>
-                <div class="card border-primary my-5">
+
+                <div id="card" class="card border-primary my-5">
                     <div class="card-header bg-primary text-white">
                         <h5>Cadastro de contato</h5>
                     </div>
                     <div class="card-body">
-                        <form id="cadastroContato" method="post" enctype="multipart/form-data" action="cadastroContato.php">
+                        <form id="cadastroContato" method="post" enctype="multipart/form-data"
+                              action="cadastroContato.php">
                             <input type="hidden" name="codigoContato" value="<?= $codigoContato ?>">
                             <input type="hidden" name="fotoAtualContato" value="<?= $fotoAtualContato ?>">
                             <h5 class="text-primary">Dados pessoais</h5>
@@ -375,7 +390,9 @@ if (!$verificaUsuarioLogado) {
                                                             <i class="bi-person-circle"></i>
                                                         </div>
                                                     </div>
-                                                    <input class="form-control" type="text" name="nomeContato" id="nomeContato" placeholder="Digite o nome" value="<?= $nomeContato ?>" required>
+                                                    <input class="form-control" type="text" name="nomeContato"
+                                                           id="nomeContato" placeholder="Digite o nome"
+                                                           value="<?= $nomeContato ?>" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -390,7 +407,9 @@ if (!$verificaUsuarioLogado) {
                                                             <i class="bi-calendar-date"></i>
                                                         </div>
                                                     </div>
-                                                    <input class="form-control" type="text" name="nascimentoContato" id="nascimentoContato" placeholder="DD/MM/AAAA" value="<?= $nascimentoContato ?>">
+                                                    <input class="form-control" type="text" name="nascimentoContato"
+                                                           id="nascimentoContato" placeholder="DD/MM/AAAA"
+                                                           value="<?= $nascimentoContato ?>">
                                                 </div>
                                             </div>
                                         </div>
@@ -414,11 +433,15 @@ if (!$verificaUsuarioLogado) {
                                                         }
                                                         ?>
 
-                                                        <input class="form-check-input" type="radio" name="sexoContato" id="sexoMasculino" value="M" <?= $checkedMasculino ?>>
-                                                        <label class="form-check-label" for="sexoMasculino">Masculino</label>
+                                                        <input class="form-check-input" type="radio" name="sexoContato"
+                                                               id="sexoMasculino" value="M" <?= $checkedMasculino ?>>
+                                                        <label class="form-check-label"
+                                                               for="sexoMasculino">Masculino</label>
                                                         &nbsp;
-                                                        <input class="form-check-input" type="radio" name="sexoContato" id="sexoFeminino" value="F" <?= $checkedFeminino ?>>
-                                                        <label class="form-check-label" for="sexoFeminino">Feminino</label>
+                                                        <input class="form-check-input" type="radio" name="sexoContato"
+                                                               id="sexoFeminino" value="F" <?= $checkedFeminino ?>>
+                                                        <label class="form-check-label"
+                                                               for="sexoFeminino">Feminino</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -434,7 +457,9 @@ if (!$verificaUsuarioLogado) {
                                                             <i class="bi-at"></i>
                                                         </div>
                                                     </div>
-                                                    <input class="form-control" type="email" name="mailContato" id="mailContato" placeholder="Digite o e-mail" value="<?= $mailContato ?>" required>
+                                                    <input class="form-control" type="email" name="mailContato"
+                                                           id="mailContato" placeholder="Digite o e-mail"
+                                                           value="<?= $mailContato ?>" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -452,7 +477,8 @@ if (!$verificaUsuarioLogado) {
                                                         </div>
                                                     </div>
                                                     <div class="custom-file">
-                                                        <input class="custom-file-input" type="file" name="fotoContato" id="fotoContato">
+                                                        <input class="custom-file-input" type="file" name="fotoContato"
+                                                               id="fotoContato">
                                                         <label class="custom-file-label" for="fotoContato">
                                                             Escolha a foto...
                                                         </label>
@@ -477,7 +503,10 @@ if (!$verificaUsuarioLogado) {
                                                             <i class="bi-phone"></i>
                                                         </div>
                                                     </div>
-                                                    <input class="form-control mascara-telefone" type="text" name="telefone1Contato" id="telefone1Contato" placeholder="(xx) xxxxx-xxxx" value="<?= $telefone1Contato ?>" required>
+                                                    <input class="form-control mascara-telefone" type="text"
+                                                           name="telefone1Contato" id="telefone1Contato"
+                                                           placeholder="(xx) xxxxx-xxxx"
+                                                           value="<?= $telefone1Contato ?>" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -492,7 +521,10 @@ if (!$verificaUsuarioLogado) {
                                                             <i class="bi-phone"></i>
                                                         </div>
                                                     </div>
-                                                    <input class="form-control mascara-telefone" type="text" name="telefone2Contato" id="telefone2Contato" placeholder="(xx) xxxxx-xxxx" value="<?= $telefone2Contato ?>">
+                                                    <input class="form-control mascara-telefone" type="text"
+                                                           name="telefone2Contato" id="telefone2Contato"
+                                                           placeholder="(xx) xxxxx-xxxx"
+                                                           value="<?= $telefone2Contato ?>">
                                                 </div>
                                             </div>
                                         </div>
@@ -509,7 +541,10 @@ if (!$verificaUsuarioLogado) {
                                                             <i class="bi-phone"></i>
                                                         </div>
                                                     </div>
-                                                    <input class="form-control mascara-telefone" type="text" name="telefone3Contato" id="telefone3Contato" placeholder="(xx) xxxxx-xxxx" value="<?= $telefone3Contato ?>">
+                                                    <input class="form-control mascara-telefone" type="text"
+                                                           name="telefone3Contato" id="telefone3Contato"
+                                                           placeholder="(xx) xxxxx-xxxx"
+                                                           value="<?= $telefone3Contato ?>">
                                                 </div>
                                             </div>
                                         </div>
@@ -524,7 +559,10 @@ if (!$verificaUsuarioLogado) {
                                                             <i class="bi-phone"></i>
                                                         </div>
                                                     </div>
-                                                    <input class="form-control mascara-telefone" type="text" name="telefone4Contato" id="telefone4Contato" placeholder="(xx) xxxxx-xxxx" value="<?= $telefone4Contato ?>">
+                                                    <input class="form-control mascara-telefone" type="text"
+                                                           name="telefone4Contato" id="telefone4Contato"
+                                                           placeholder="(xx) xxxxx-xxxx"
+                                                           value="<?= $telefone4Contato ?>">
                                                 </div>
                                             </div>
                                         </div>
@@ -545,7 +583,10 @@ if (!$verificaUsuarioLogado) {
                                                             <i class="bi-cone"></i>
                                                         </div>
                                                     </div>
-                                                    <input class="form-control" type="text" name="logradouroContato" id="logradouroContato" placeholder="Rua, avenida, travessa e outros" value="<?= $logradouroContato ?>" required>
+                                                    <input class="form-control" type="text" name="logradouroContato"
+                                                           id="logradouroContato"
+                                                           placeholder="Rua, avenida, travessa e outros"
+                                                           value="<?= $logradouroContato ?>" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -564,7 +605,10 @@ if (!$verificaUsuarioLogado) {
                                                             <i class="bi-pin"></i>
                                                         </div>
                                                     </div>
-                                                    <input class="form-control" type="text" name="complementoContato" id="complementoContato" placeholder="Número, quadra, lote e outros" value="<?= $complementoContato ?>" required>
+                                                    <input class="form-control" type="text" name="complementoContato"
+                                                           id="complementoContato"
+                                                           placeholder="Número, quadra, lote e outros"
+                                                           value="<?= $complementoContato ?>" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -579,7 +623,8 @@ if (!$verificaUsuarioLogado) {
                                                             <i class="bi-grid"></i>
                                                         </div>
                                                     </div>
-                                                    <select class="form-control" name="estadoContato" id="estadoContato" required>
+                                                    <select class="form-control" name="estadoContato" id="estadoContato"
+                                                            required>
                                                         <option value="">Escolha o estado</option>
                                                         <?php
                                                         $sqlEstados = "SELECT codigoEstado, nomeEstado FROM estados";
@@ -613,7 +658,9 @@ if (!$verificaUsuarioLogado) {
                                                             <i class="bi-house"></i>
                                                         </div>
                                                     </div>
-                                                    <input class="form-control" type="text" name="bairroContato" id="bairroContato" placeholder="Digite o Bairro" value="<?= $bairroContato ?>" required>
+                                                    <input class="form-control" type="text" name="bairroContato"
+                                                           id="bairroContato" placeholder="Digite o Bairro"
+                                                           value="<?= $bairroContato ?>" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -628,7 +675,8 @@ if (!$verificaUsuarioLogado) {
                                                             <i class="bi-globe"></i>
                                                         </div>
                                                     </div>
-                                                    <select class="form-control" name="cidadeContato" id="cidadeContato" required>
+                                                    <select class="form-control" name="cidadeContato" id="cidadeContato"
+                                                            required>
                                                         <option value="">Escolha a cidade</option>
                                                     </select>
                                                 </div>
@@ -650,7 +698,8 @@ if (!$verificaUsuarioLogado) {
         </div>
     </div>
 </div>
-<div class="modal fade" id="modalSobreAplicacao" tabindex="-1" role="dialog" aria-labelledby="sobreAplicacao" aria-hidden="true">
+<div class="modal fade" id="modalSobreAplicacao" tabindex="-1" role="dialog" aria-labelledby="sobreAplicacao"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -674,21 +723,31 @@ if (!$verificaUsuarioLogado) {
 </div>
 </body>
 <script>
+    /*const msg = !!document.querySelector('#msg');
+    const card = document.querySelector('#card');
+
+    if (msg) {
+        card.classList.toggle('my-5');
+    }
+    else {
+        console.log('não existe');
+    }*/
+
     jQuery.validator.setDefaults({
         errorElement: 'span',
-        errorPlacement: function(error, element) {
+        errorPlacement: function (error, element) {
             error.addClass('invalid-feedback');
             element.closest('.form-group').append(error);
         },
-        highlight: function(element, errorClass, validClass) {
+        highlight: function (element, errorClass, validClass) {
             $(element).addClass('is-invalid');
 
         },
-        unhighlight: function(element, errorClass, validClass) {
+        unhighlight: function (element, errorClass, validClass) {
             $(element).removeClass('is-invalid');
         }
     });
-    $(document).ready(function() {
+    $(document).ready(function () {
         $("#cadastroContato").validate({
             rules: {
                 nomeContato: {
@@ -704,18 +763,18 @@ if (!$verificaUsuarioLogado) {
         });
         $("#nascimentoContato").mask("00/00/0000");
 
-        var SPMaskBehavior = function(val) {
+        var SPMaskBehavior = function (val) {
                 return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
             },
             spOptions = {
-                onKeyPress: function(val, e, field, options) {
+                onKeyPress: function (val, e, field, options) {
                     field.mask(SPMaskBehavior.apply({}, arguments), options);
                 }
             };
 
         $('.mascara-telefone').mask(SPMaskBehavior, spOptions);
 
-        $("#estadoContato").change(function() {
+        $("#estadoContato").change(function () {
             $("#cidadeContato").html('<option> Carregando...</option>');
             $("#cidadeContato").load('listaCidades.php?codigoEstado=' + $("#estadoContato").val());
         });
@@ -723,7 +782,7 @@ if (!$verificaUsuarioLogado) {
         <?php
         if (!empty($estadoContato) && !empty($cidadeContato)) {
             echo "$(\"#cidadeContato\").html('<option> Carregando...</option>');
-                    $(\"#cidadeContato\").load('listaCidades.php?codigoEstado=" .  $estadoContato . "&codigoCidade=" . $cidadeContato . "');";
+                    $(\"#cidadeContato\").load('listaCidades.php?codigoEstado=" . $estadoContato . "&codigoCidade=" . $cidadeContato . "');";
         }
         ?>
     });
